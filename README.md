@@ -1,0 +1,2 @@
+# mind-challenge
+teams challenge
