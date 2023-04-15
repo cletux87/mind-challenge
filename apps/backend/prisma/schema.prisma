@@ -1,0 +1,72 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = "postgresql://postgres:mysecretpassword@localhost:5432/mind"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email String @unique
+  fistName String @db.VarChar(255)
+  lastName String @db.VarChar(255)
+  phone String? @db.VarChar(255)
+  role Role @default(USER)
+  password String @db.VarChar(255)
+  startDate DateTime
+  endDate DateTime?
+  englishLevel EnglishLevel @default(NONE)
+  belongToTeam Team? @relation(fields: [teamId], references: [id])
+  teamId Int?
+  personMoves TeamLog[] @relation("personMove")
+  operationMoves TeamLog[] @relation("personDoingOperation")
+}
+
+model Account {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  clientName String
+  teams Team[]
+  disableDate DateTime?
+}
+
+model Team {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  teamName String
+  assignedAccount Account? @relation(fields: [accountId], references: [id])
+  accountId Int?
+  users User[]
+  teamLogs TeamLog[]
+}
+
+model TeamLog {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  movement String @db.VarChar(255)
+  teamMove Team? @relation(fields: [teamMoveId], references: [id])
+  teamMoveId Int
+  personMove User? @relation("personMove",fields: [personMoveId], references: [id])
+  personMoveId Int 
+  personDoingOperation User? @relation("personDoingOperation",fields: [personDoingOperationId], references: [id])
+  personDoingOperationId Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum EnglishLevel {
+  NONE
+  BASIC
+  INTERMEDIATE
+  ADVANCED
+}
