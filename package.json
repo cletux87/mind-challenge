@@ -8,6 +8,10 @@
     "prisma-generate": "yarn prisma generate --schema ./apps/backend/prisma/schema.prisma",
     "initial-prisma": "yarn prisma-generate && yarn seed-db"
   },
+  "volta": {
+    "node": "16.16.0",
+    "yarn": "1.22.18"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",

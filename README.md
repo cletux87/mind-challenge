@@ -19,3 +19,83 @@ Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and 
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+## Setup
+
+### Pre requisites
+
+Install node
+Install volta
+Install docker
+
+### Volta
+
+Next, make sure you have installed [volta](http://volta.sh/) which ensures you have the right version of node and yarn for this project. You can run:
+
+```
+volta install node
+```
+
+and then:
+
+```
+volta install yarn
+```
+
+To get the right versions for this repo.
+
+We also strongly recommend the use of [Visual Studio Code](https://code.visualstudio.com/) as an authoring tool. If you use something else, you're on your own. and chances are that you can affect the rest of the team
+
+Volta explains that it is possible to use volta with nvm in case you use nvm in other workspaces that you have. I you run into trouble with volta and nvm just comment the following line in your .zshrc or bash_profile file
+
+```
+# export PATH="$VOLTA_HOME/bin:$PATH"
+```
+
+Do not forget to remove the comment when you want to work in this repo
+
+### Run Docker
+
+On the command line run
+
+```
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+```
+
+Run a terminal to access the db
+
+```
+psql -U postgres
+postgres-# CREATE DATABASE mytest;
+postgres-# \q
+```
+
+Once docker is running and have a schema lets install node dependencies
+
+### Node
+
+On the repository run
+
+```
+yarn
+```
+
+this should install all dependencies
+
+later on run
+
+```
+yarn initial-prisma
+```
+
+this should create the schema and seed a super user in the database
+
+the users create should be
+
+```
+email: 'admin@admin.com',
+password: 'password',
+
+email: 'user@user.com',
+password: 'password',
+```
