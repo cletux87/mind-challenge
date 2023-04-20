@@ -16,7 +16,7 @@ export interface IUserDTO extends UserRegisterDTO {
   endDate: string;
 }
 
-export type UserDTO = IUserDTO;
+export type UserDTO = Omit<IUserDTO, 'password'>;
 
 export const userSignInSchema = object({
   email: string({ required_error: 'Email is required' }).email('Invalid email'),

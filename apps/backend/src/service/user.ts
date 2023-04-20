@@ -21,6 +21,7 @@ const transformDaoUserToDtoUser = (daoUser): UserDTO => {
     englishLevel: daoUser.englishLevel,
     startDate: daoUser.startDate,
     endDate: daoUser.endDate,
+    role: daoUser.role,
   };
 };
 

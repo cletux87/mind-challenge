@@ -11,6 +11,6 @@ export const signIn = async (req, res) => {
     res.json({ errors: 'User not found or Password incorrect' });
     return;
   }
-  const token = await createJWT(user);
-  res.json({ token });
+  const jwt = await createJWT(user);
+  res.json({ jwt });
 };

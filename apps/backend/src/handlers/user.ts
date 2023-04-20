@@ -10,6 +10,7 @@ export const getUser = async (req, res) => {
     const id = parseInt(req.params.id);
     const user = await getUserService(id);
     res.json({ data: user });
+    res.status(200);
   } catch (e) {
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
