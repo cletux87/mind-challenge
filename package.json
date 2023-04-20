@@ -5,13 +5,17 @@
   "scripts": {
     "backend:dev": "yarn nx run backend:serve",
     "seed-db": "yarn prisma db seed",
+    "prisma-migrate": "yarn prisma migrate dev --schema ./apps/backend/prisma/schema.prisma",
     "prisma-generate": "yarn prisma generate --schema ./apps/backend/prisma/schema.prisma",
     "initial-prisma": "yarn prisma-generate && yarn seed-db",
     "ui-dev": "yarn nx run ui:serve ",
-    "storybook": "yarn nx run component-module:storybook"
+    "storybook": "yarn nx run component-module:storybook",
+    "ui-dev:docker": "yarn nx run ui:serve --host=0.0.0.0 --port=4200",
+    "storybook:docker": "yarn nx run component-module:storybook --host=0.0.0.0 --port=4400",
+    "backend:dev:docker": "yarn nx run backend:serve --host=0.0.0.0 --port=3333"
   },
   "volta": {
-    "node": "16.16.0",
+    "node": "18.12.1",
     "yarn": "1.22.18"
   },
   "private": true,

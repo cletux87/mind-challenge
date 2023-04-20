@@ -23,9 +23,10 @@ services:
     extends:
       file: docker-compose.base.yml
       service: nx-app-base
-    command: yarn prisma-generate
+    command: yarn prisma-migrate
+      yarn prisma-generate
       yarn initial-prisma
-      yarn backend:dev
+      yarn backend:dev:docker
     ports:
       - 3333:3333 # API Entry port
     environment:
@@ -44,7 +45,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: nx-app-base
-    command: yarn ui-dev
+    command: yarn ui-dev:docker
     ports:
       - 4200:4200
 
@@ -52,7 +53,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: nx-app-base
-    command: yarn storybook
+    command: yarn storybook:docker
     ports:
       - 4400:4400
 
