@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgis/postgis:13-3.2
+    ports:
+      - '5432:5432'
+    volumes:
+      - './tmp/postgres:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=mind
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    depends_on:
+      - postgres
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: yarn prisma-generate
+      yarn initial-prisma
+      yarn backend:dev
+    ports:
+      - 3333:3333 # API Entry port
+    environment:
+      - NODE_ENV=development
+      - PORT=3333
+      - HOST=localhost
+      - COOKIE_DOMAIN=localhost
+      - COOKIE_PATH=/
+      - SECURE_COOKIE=false
+      - JWT_SECRET=xxxxxxxxxxxxxx
+      - COOKIE_SECRET=xxxxxxxxxxxxxx
+      - COOKIE_EXP=259200000
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/mind
+
+  admin-ui:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: yarn ui-dev
+    ports:
+      - 4200:4200
+
+  storybook:
+    extends:
+      file: docker-compose.base.yml
+      service: nx-app-base
+    command: yarn storybook
+    ports:
+      - 4400:4400
+
+volumes:
+  mono-node-modules: null
