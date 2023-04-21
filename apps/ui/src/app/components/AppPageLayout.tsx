@@ -18,8 +18,8 @@ const navigationItems: INavMenu[] = [
   {
     type: 'calendar',
     // @TODO update path once page exists
-    path: '/iframe.html',
-    match: [],
+    path: '/app/accounts',
+    match: ['/app/accounts'],
   },
   {
     type: 'team',
@@ -46,7 +46,7 @@ interface Props {
 }
 
 export const AppPageLayout = ({ children }: Props) => {
-  const { dispatch } = useAuthUserContext();
+  const { state, dispatch } = useAuthUserContext();
   const navigate = useNavigate();
 
   const items: TopBarMenuItems[] = useMemo(() => {
@@ -81,7 +81,11 @@ export const AppPageLayout = ({ children }: Props) => {
       <PageLayout
         avatarMenuItems={items}
         avatarFirstName="T"
-        navigation={navigationItems}
+        navigation={
+          state.user?.role === 'USER'
+            ? navigationItems.slice(0, 1)
+            : navigationItems
+        }
       >
         {children}
       </PageLayout>

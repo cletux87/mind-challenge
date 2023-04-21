@@ -60,6 +60,7 @@ const reducer = (state: State, action: Action): State => {
           jwt: state.user?.jwt || '',
           username: action.payload.email,
           id: action.payload.id,
+          role: action.payload.role,
         },
       };
     case 'LOGOUT_USER.SUCCESS':

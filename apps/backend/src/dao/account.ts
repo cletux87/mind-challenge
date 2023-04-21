@@ -39,3 +39,20 @@ export const createAccount = async ({
   });
   return account;
 };
+
+export const updateAccount = async ({
+  id,
+  name,
+  clientName,
+}: Omit<AccountEntity, 'createdAt' | 'updatedAt'>) => {
+  const account = await prisma.account.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      clientName,
+    },
+  });
+  return account;
+};

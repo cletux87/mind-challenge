@@ -43,15 +43,7 @@ const RequireAuthProtector = ({ children }: Props) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (jwt) {
-    const loginUser = decodeJWT(jwt);
-    if (loginUser) {
-      return children;
-    }
-  }
-
-  // Token Expired
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  return null;
 };
 
 export default RequireAuthProtector;

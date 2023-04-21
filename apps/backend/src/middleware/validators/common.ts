@@ -2,7 +2,7 @@ import { IdRequestSchema } from '@mind-challenge4/share-types';
 
 export const validateGetIdIsNumber = (req, res, next) => {
   try {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     IdRequestSchema.parse({ id });
     next();
   } catch (err: any) {

@@ -3,6 +3,7 @@ import {
   getAccount as getAccountDao,
   getAllAccounts as getAccountsDao,
   createAccount as createAccountDao,
+  updateAccount as updateAccountDao,
 } from '../dao/account';
 
 export const getAccount = async (id: number) => {
@@ -21,4 +22,12 @@ export const createAccount = async ({
 }: AccountRegisterDTO) => {
   const account = await createAccountDao({ name, clientName });
   return account;
+};
+
+export const updateAccount = async ({
+  id,
+  name,
+  clientName,
+}: AccountRegisterDTO & { id: number }) => {
+  return await updateAccountDao({ id, name, clientName });
 };

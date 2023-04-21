@@ -9,11 +9,13 @@ interface Props {
 
 const AuthPage = ({ children, onlyAdmin = false }: Props) => {
   if (onlyAdmin) {
-    <div>
-      <RequireAuthProtector>
-        <AdminProtector>{children}</AdminProtector>
-      </RequireAuthProtector>
-    </div>;
+    return (
+      <div>
+        <RequireAuthProtector>
+          <AdminProtector>{children}</AdminProtector>
+        </RequireAuthProtector>
+      </div>
+    );
   }
 
   return (

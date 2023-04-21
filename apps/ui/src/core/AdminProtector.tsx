@@ -15,5 +15,5 @@ export const AdminProtector = ({ children }: Props) => {
     return children;
   }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  return <Navigate to="/app/dashboard/me" state={{ from: location }} replace />;
 };

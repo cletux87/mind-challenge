@@ -6,6 +6,8 @@ import Dashboard from '../app/pages/Dashboard';
 import AuthPage from '../app/components/AuthPage';
 import { Users } from '../app/pages/Users';
 import { User } from '../app/pages/User';
+import { Accounts } from '../app/pages/Accounts';
+import { Account } from '../app/pages/Account';
 
 const Router = () => {
   return (
@@ -27,7 +29,7 @@ const Router = () => {
           <Route
             path=""
             element={
-              <AuthPage>
+              <AuthPage onlyAdmin>
                 <Users />
               </AuthPage>
             }
@@ -37,8 +39,28 @@ const Router = () => {
           <Route
             path=":id"
             element={
-              <AuthPage>
+              <AuthPage onlyAdmin>
                 <User />
+              </AuthPage>
+            }
+          />
+        </Route>
+        <Route path="accounts">
+          <Route
+            path=""
+            element={
+              <AuthPage onlyAdmin>
+                <Accounts />
+              </AuthPage>
+            }
+          />
+        </Route>
+        <Route path="account">
+          <Route
+            path=":id"
+            element={
+              <AuthPage onlyAdmin>
+                <Account />
               </AuthPage>
             }
           />
