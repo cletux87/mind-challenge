@@ -7,6 +7,7 @@ import {
 export const createTeam = async (req, res) => {
   try {
     const accountId = parseInt(req.body.accountId);
+    console.log('Pass TO SERVICE');
     const team = await createTeamService({
       teamName: req.body.teamName,
       accountId,

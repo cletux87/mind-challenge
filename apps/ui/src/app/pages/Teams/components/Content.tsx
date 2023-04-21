@@ -1,4 +1,4 @@
-import { AccountsDTO } from '@mind-challenge4/share-types';
+import { TeamDTO } from '@mind-challenge4/share-types';
 import React from 'react';
 import { Box, Button, Card, Typography } from '@mui/material';
 
@@ -7,28 +7,33 @@ import { useNavigate } from 'react-router-dom';
 
 const columns = [
   {
-    text: 'Client Name',
-    accessor: 'clientName',
+    text: 'Team Name',
+    accessor: 'teamName',
     isLink: true,
     isClickable: true,
+  },
+  {
+    textAlign: 'left',
+    text: 'Created At',
+    accessor: 'createdAt',
   },
 ];
 
 interface Props {
-  accounts: AccountsDTO[];
+  users: TeamDTO[];
   isLoading: boolean;
 }
 
-export const Content = ({ accounts, isLoading }: Props) => {
+export const Content = ({ users, isLoading }: Props) => {
   const navigate = useNavigate();
 
   const onCellClick = (cell: any) => {
     const id = cell.row.original.id;
-    navigate(`/app/account/${id}`);
+    navigate(`/app/team/${id}`);
   };
 
-  const onAddUAccount = () => {
-    navigate('/app/account/0');
+  const onAddUser = () => {
+    navigate('/app/team/0');
   };
 
   return (
@@ -42,16 +47,16 @@ export const Content = ({ accounts, isLoading }: Props) => {
           marginBottom: theme.spacing(2),
         })}
       >
-        <Typography sx={{ fontSize: '1.5rem' }}>All Accounts</Typography>
-        <Button variant="contained" onClick={onAddUAccount}>
+        <Typography sx={{ fontSize: '1.5rem' }}>All Teams</Typography>
+        <Button variant="contained" onClick={onAddUser}>
           <Typography padding={0.5} fontSize="0.9rem">
-            +Add Account
+            +Add Team
           </Typography>
         </Button>
       </Box>
       <Card sx={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
         <ReportDataTable
-          data={accounts}
+          data={users}
           loading={isLoading}
           columns={columns}
           onCellClick={onCellClick}

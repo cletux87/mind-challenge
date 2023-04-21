@@ -22,6 +22,7 @@ import {
 import { validateAccountCreateSchema } from './middleware/validators/account';
 import { validateGetIdIsNumber } from './middleware/validators/common';
 import { validateTeamCreateSchema } from './middleware/validators/team';
+import { getAllLogs } from './handlers/teamLog';
 
 const router = Router();
 
@@ -62,5 +63,7 @@ router.get('/teams', isAdminUser, getTeams);
 router.get('/team/:id', isAdminUser, validateGetIdIsNumber, getTeam);
 router.delete('/team/:id', isAdminUser, validateGetIdIsNumber, deleteTeam);
 router.put('/team/:id', isAdminUser, validateGetIdIsNumber, updateAccount);
+
+router.get('/logs', isAdminUser, getAllLogs);
 
 export default router;

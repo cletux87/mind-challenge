@@ -8,6 +8,9 @@ import { Users } from '../app/pages/Users';
 import { User } from '../app/pages/User';
 import { Accounts } from '../app/pages/Accounts';
 import { Account } from '../app/pages/Account';
+import { Team } from '../app/pages/Team';
+import { Teams } from '../app/pages/Teams';
+import { Logs } from '../app/pages/Logs';
 
 const Router = () => {
   return (
@@ -61,6 +64,36 @@ const Router = () => {
             element={
               <AuthPage onlyAdmin>
                 <Account />
+              </AuthPage>
+            }
+          />
+        </Route>
+        <Route path="team">
+          <Route
+            path=":id"
+            element={
+              <AuthPage onlyAdmin>
+                <Team />
+              </AuthPage>
+            }
+          />
+        </Route>
+        <Route path="teams">
+          <Route
+            path=""
+            element={
+              <AuthPage onlyAdmin>
+                <Teams />
+              </AuthPage>
+            }
+          />
+        </Route>
+        <Route path="logs">
+          <Route
+            path=""
+            element={
+              <AuthPage onlyAdmin>
+                <Logs />
               </AuthPage>
             }
           />

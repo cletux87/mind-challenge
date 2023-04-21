@@ -17,27 +17,24 @@ const navigationItems: INavMenu[] = [
   },
   {
     type: 'calendar',
-    // @TODO update path once page exists
     path: '/app/accounts',
     match: ['/app/accounts'],
   },
   {
     type: 'team',
-    // @TODO update path once page exists
     path: '/app/users',
     match: ['/app/users', '/app/user/:id'],
   },
   {
-    type: 'documents',
-    // @TODO update path once page exists
-    path: '/iframe.html',
-    match: [],
+    type: 'bookmarks',
+    path: '/app/teams',
+    match: ['/app/team/:id', '/app/teams'],
   },
   {
-    type: 'bookmarks',
+    type: 'documents',
     // @TODO update path once page exists
-    path: '/iframe.html',
-    match: [],
+    path: '/app/logs',
+    match: ['/app/logs'],
   },
 ];
 
@@ -54,15 +51,10 @@ export const AppPageLayout = ({ children }: Props) => {
       {
         name: 'Logout',
         onClick: () => {
-          // remove jwt from localS torage
           window.localStorage.removeItem(JWT_LOCAL_STORAGE_KEY);
-
-          // clear auth state
           dispatch({
             type: 'LOGOUT_USER.SUCCESS',
           });
-
-          // return to login
           navigate('/login');
         },
       },
