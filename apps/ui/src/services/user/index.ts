@@ -1,3 +1,4 @@
+import { UserRegisterDTO, UserUpdateDTO } from '@mind-challenge4/share-types';
 import axios, { AxiosResponse } from 'axios';
 import { JWT_LOCAL_STORAGE_KEY } from '../../constants/auth';
 import {
@@ -5,7 +6,7 @@ import {
   END_POINT_ME,
   END_POINT_SIGN_IN,
 } from '../../constants/url';
-import { request } from '../index';
+import { client, request } from '../index';
 
 interface ILoginUser {
   id: number;
@@ -88,6 +89,33 @@ export const whoami = (userId: number): Promise<AxiosResponse<ILoginUser>> => {
     method: 'get',
     url: `${END_POINT_ME}`,
   });
+};
+
+export const updateUser = ({
+  userId,
+  userUpdates,
+}: {
+  userId: string;
+  userUpdates: UserUpdateDTO;
+}) => {
+  return client.put<UserUpdateDTO>(`/api/user/${userId}`, {
+    ...userUpdates,
+  });
+};
+
+export const createUser = ({
+  userId,
+  userCreate,
+}: {
+  userId: string;
+  userCreate: UserRegisterDTO;
+}) => {
+  return client.post<{ data: UserUpdateDTO & { id: string } }>(
+    `/api/user/${userId}`,
+    {
+      ...userCreate,
+    }
+  );
 };
 
 export const doWhoami = async ({

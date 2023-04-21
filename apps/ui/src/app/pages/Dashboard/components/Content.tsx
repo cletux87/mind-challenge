@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { UserDTO } from '@mind-challenge4/share-types';
-import { UserCard } from './UserCard';
+import { UserCard } from '../../../components/UserCard';
 import { useAuthUserContext } from '../../../../context/AuthUser';
 
 interface Props {

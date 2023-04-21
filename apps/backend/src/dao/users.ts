@@ -1,4 +1,9 @@
-import { UserEntity } from '@mind-challenge4/share-types';
+import {
+  mapEnglishLevel,
+  mapRole,
+  UserEntity,
+  UserUpdateDTO,
+} from '@mind-challenge4/share-types';
 import prisma from '../db';
 
 export const getAllUsers = async () => {
@@ -55,7 +60,33 @@ export const createUser = async ({
       englishLevel,
       password,
       startDate: new Date(),
-      endDate: new Date(),
+    },
+  });
+  return user;
+};
+
+export const updateUser = async ({
+  id,
+  email,
+  firstName,
+  lastName,
+  phone,
+  role,
+  englishLevel,
+  password,
+}: UserUpdateDTO & { id: number }) => {
+  const user = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      email,
+      fistName: firstName,
+      lastName,
+      phone,
+      role: mapRole(role),
+      englishLevel: mapEnglishLevel(englishLevel),
+      ...(password ? { password } : {}),
     },
   });
   return user;

@@ -1,24 +1,17 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useFetchUser } from '../../../hooks/useFetchUser';
-import { Spinner, Snackbar } from '@mind-challenge4/component-module';
+import { useFetchUsers } from '../../../hooks/useFetchUsers';
+import { Snackbar } from '@mind-challenge4/component-module';
 import { Content } from './Content';
 
-interface Props {
-  userId: string;
-}
-
-export const Main = ({ userId }: Props) => {
+export const Main = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const closeSnackbar = () => {
     setSnackbarOpen(false);
   };
 
-  const { isLoading, isError, error, data } = useFetchUser({
-    userId: userId || '',
-    skip: userId === '' || !userId,
-  });
+  const { isLoading, isError, error, data } = useFetchUsers({});
 
   useEffect(() => {
     if (isError !== snackbarOpen) {
@@ -40,20 +33,10 @@ export const Main = ({ userId }: Props) => {
         text={`${error}` || ''}
         severity={'error'}
       />
-      {isLoading && (
-        <Box
-          width="100%"
-          height="100%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box>
-            <Spinner />
-          </Box>
-        </Box>
+
+      {data && !isError && (
+        <Content users={data ? data : []} isLoading={isLoading} />
       )}
-      {data && !isLoading && !isError && <Content userDto={data} />}
     </Box>
   );
 };

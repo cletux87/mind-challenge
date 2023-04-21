@@ -19,7 +19,7 @@ const getIconData = (type: MenuIconTypes, theme: Theme) => {
     return {
       Component: <HomeIconComp />,
       fill: 'none',
-      stroke: theme.palette.primary.main,
+      stroke: theme.palette.grey[300],
       activeFill: 'none',
       activeStroke: theme.palette.primary.main,
       height: '18px',

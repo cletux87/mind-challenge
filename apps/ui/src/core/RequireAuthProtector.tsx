@@ -6,7 +6,7 @@ import { decodeJWT } from '../services/user';
 import { useLocalStorageState } from '../hooks/useLocalStorageState';
 
 interface Props {
-  children: JSX.Element;
+  children: React.ReactElement;
 }
 
 const RequireAuthProtector = ({ children }: Props) => {

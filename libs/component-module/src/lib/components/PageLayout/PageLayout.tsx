@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { TopBar, TopBarMenuItems } from '../TopBar/TopBar';
 import MenuIcon, { MenuIconTypes } from '../MenuIcon';
-import { useLocation, matchPath } from 'react-router-dom';
+import { useLocation, matchPath, useNavigate } from 'react-router-dom';
 
 export interface INavMenu {
   type: MenuIconTypes;
   path: string;
   onClick?: () => void;
+  match: string[];
 }
 
 interface Props {
@@ -28,11 +29,14 @@ export const PageLayout = ({
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(-1);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let isAnyMatching = false;
     navigation.forEach((navItem, index) => {
-      const match = matchPath(location.pathname, navItem.path);
+      const match = navItem.match.some((path) => {
+        return matchPath(path, location.pathname);
+      });
       if (match) {
         isAnyMatching = true;
         setSelectedMenuIndex(index);
@@ -64,6 +68,7 @@ export const PageLayout = ({
               marginRight: { xs: 4, md: 0 },
               p: 0,
             }}
+            onClick={() => navigate(navItem.path)}
           >
             <MenuIcon
               type={navItem.type}

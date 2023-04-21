@@ -3,12 +3,14 @@ import {
   getAllUsers as getAllDaoUsers,
   deleteUser as deleteDaoUser,
   createUser as createDaoUser,
+  updateUser as updateDaoUser,
 } from '../dao/users';
 import {
-  EnglishLevel,
-  Role,
+  mapEnglishLevel,
+  mapRole,
   UserDTO,
   UserRegisterDTO,
+  UserUpdateDTO,
 } from '@mind-challenge4/share-types';
 import { hashPassword } from '../modules/auth';
 
@@ -22,6 +24,7 @@ const transformDaoUserToDtoUser = (daoUser): UserDTO => {
     startDate: daoUser.startDate,
     endDate: daoUser.endDate,
     role: daoUser.role,
+    id: daoUser.id,
   };
 };
 
@@ -38,34 +41,6 @@ export const getAllUsers = async () => {
 export const deleteUser = async (id: number) => {
   const user = await deleteDaoUser(id);
   return transformDaoUserToDtoUser(user);
-};
-
-const mapEnglishLevel = (value: string) => {
-  const lowerCaseValue = value.toLowerCase();
-  switch (lowerCaseValue) {
-    case 'none':
-      return EnglishLevel.NONE;
-    case 'basic':
-      return EnglishLevel.BASIC;
-    case 'intermediate':
-      return EnglishLevel.INTERMEDIATE;
-    case 'advanced':
-      return EnglishLevel.ADVANCED;
-    default:
-      return EnglishLevel.NONE;
-  }
-};
-
-const mapRole = (value: string) => {
-  const lowerCaseValue = value.toLowerCase();
-  switch (lowerCaseValue) {
-    case 'user':
-      return Role.USER;
-    case 'admin':
-      return Role.ADMIN;
-    default:
-      return Role.USER;
-  }
 };
 
 export const createUser = async ({
@@ -88,4 +63,27 @@ export const createUser = async ({
     password: newPassword,
   });
   return transformDaoUserToDtoUser(user);
+};
+
+export const updateUser = async ({
+  id,
+  email,
+  firstName,
+  lastName,
+  phone,
+  role,
+  englishLevel,
+  password,
+}: UserUpdateDTO & { id: number }) => {
+  const user = await updateDaoUser({
+    id,
+    email,
+    firstName,
+    lastName,
+    phone,
+    role,
+    englishLevel,
+    password,
+  });
+  return user;
 };

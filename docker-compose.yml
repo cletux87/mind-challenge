@@ -39,7 +39,7 @@ services:
       - JWT_SECRET=xxxxxxxxxxxxxx
       - COOKIE_SECRET=xxxxxxxxxxxxxx
       - COOKIE_EXP=259200000
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/mind
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/mind?schema=public
 
   admin-ui:
     extends:

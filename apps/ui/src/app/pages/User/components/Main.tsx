@@ -5,7 +5,7 @@ import { Spinner, Snackbar } from '@mind-challenge4/component-module';
 import { Content } from './Content';
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 
 export const Main = ({ userId }: Props) => {
@@ -17,7 +17,7 @@ export const Main = ({ userId }: Props) => {
 
   const { isLoading, isError, error, data } = useFetchUser({
     userId: userId || '',
-    skip: userId === '' || !userId,
+    skip: userId === '' || !userId || userId === '0',
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Main = ({ userId }: Props) => {
         text={`${error}` || ''}
         severity={'error'}
       />
-      {isLoading && (
+      {isLoading && userId !== '0' && (
         <Box
           width="100%"
           height="100%"
@@ -53,7 +53,9 @@ export const Main = ({ userId }: Props) => {
           </Box>
         </Box>
       )}
-      {data && !isLoading && !isError && <Content userDto={data} />}
+      {(data && !isLoading && !isError) || userId === '0' ? (
+        <Content user={data ? data : undefined} isLoading={isLoading} />
+      ) : null}
     </Box>
   );
 };

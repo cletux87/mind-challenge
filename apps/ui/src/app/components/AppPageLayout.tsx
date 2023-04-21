@@ -12,27 +12,32 @@ import { useNavigate } from 'react-router-dom';
 const navigationItems: INavMenu[] = [
   {
     type: 'home',
-    path: '/app/dashboard',
+    path: '/app/dashboard/me',
+    match: ['/app/dashboard/:id'],
   },
   {
     type: 'calendar',
     // @TODO update path once page exists
     path: '/iframe.html',
+    match: [],
   },
   {
     type: 'team',
     // @TODO update path once page exists
-    path: '/iframe.html',
+    path: '/app/users',
+    match: ['/app/users', '/app/user/:id'],
   },
   {
     type: 'documents',
     // @TODO update path once page exists
     path: '/iframe.html',
+    match: [],
   },
   {
     type: 'bookmarks',
     // @TODO update path once page exists
     path: '/iframe.html',
+    match: [],
   },
 ];
 

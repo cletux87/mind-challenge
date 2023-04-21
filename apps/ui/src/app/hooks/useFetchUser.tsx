@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserDTO } from '@mind-challenge4/share-types';
-import { client } from '../../../../services/index';
-import { END_POINT_ME, END_POINT_USER } from '../../../../constants/url';
+import { client } from '../../services/index';
+import { END_POINT_ME, END_POINT_USER } from '../../constants/url';
 
 interface Props {
   userId: string;
