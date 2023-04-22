@@ -13,6 +13,7 @@ import {
   UserUpdateDTO,
 } from '@mind-challenge4/share-types';
 import { hashPassword } from '../modules/auth';
+import { insertLog } from './logs';
 
 const transformDaoUserToDtoUser = (daoUser): UserDTO => {
   return {
@@ -51,7 +52,8 @@ export const createUser = async ({
   role,
   englishLevel,
   password,
-}: UserRegisterDTO) => {
+  contextReq,
+}: UserRegisterDTO & { contextReq: any }) => {
   const newPassword = await hashPassword(password);
   const user = await createDaoUser({
     email,
@@ -61,6 +63,12 @@ export const createUser = async ({
     role: mapRole(role),
     englishLevel: mapEnglishLevel(englishLevel),
     password: newPassword,
+  });
+  const log = await insertLog({
+    teamMoveId: undefined,
+    personMoveId: user.id,
+    personDoingOperationId: parseInt(contextReq.user.id),
+    movement: `${contextReq.user.id} ${contextReq.user.email} => create  person => ${user.id} ${user.email}`,
   });
   return transformDaoUserToDtoUser(user);
 };

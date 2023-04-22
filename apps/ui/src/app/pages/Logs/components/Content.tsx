@@ -6,8 +6,8 @@ import { ReportDataTable } from '@mind-challenge4/component-module';
 
 const columns = [
   {
-    text: 'Id',
-    accessor: 'id',
+    text: 'Movement',
+    accessor: 'movement',
   },
   {
     textAlign: 'left',

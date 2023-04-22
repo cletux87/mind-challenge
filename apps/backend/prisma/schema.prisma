@@ -52,11 +52,12 @@ model TeamLog {
   updatedAt DateTime @updatedAt
   movement String @db.VarChar(255)
   teamMove Team? @relation(fields: [teamMoveId], references: [id])
-  teamMoveId Int
+  teamMoveId Int?
   personMove User? @relation("personMove",fields: [personMoveId], references: [id])
-  personMoveId Int 
+  personMoveId Int? 
   personDoingOperation User? @relation("personDoingOperation",fields: [personDoingOperationId], references: [id])
   personDoingOperationId Int
+  @@unique([id])
 }
 
 enum Role {

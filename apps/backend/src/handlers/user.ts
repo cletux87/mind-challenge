@@ -32,6 +32,7 @@ export const createUser = async (req, res) => {
     role: req.body.role,
     englishLevel: req.body.englishLevel,
     password: req.body.password,
+    contextReq: req,
   });
   res.json({ data: user });
 };

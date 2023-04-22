@@ -32,7 +32,6 @@ const navigationItems: INavMenu[] = [
   },
   {
     type: 'documents',
-    // @TODO update path once page exists
     path: '/app/logs',
     match: ['/app/logs'],
   },
