@@ -51,6 +51,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
+app.get('/version', (req, res) => {
+  res.json({ version: '0.0.1' });
+});
 app.use('/api', protect, router);
 app.post('/signin', validateAuthSchema, signIn);
 
