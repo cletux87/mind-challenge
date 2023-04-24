@@ -29,13 +29,13 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (id: number, isActive: boolean) => {
   const user = await prisma.user.update({
     where: {
       id,
     },
     data: {
-      endDate: new Date(),
+      endDate: isActive ? null :new Date(),
     },
   });
   return user;

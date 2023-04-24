@@ -15,7 +15,7 @@ export const Main = ({ userId }: Props) => {
     setSnackbarOpen(false);
   };
 
-  const { isLoading, isError, error, data } = useFetchUser({
+  const { isLoading, isError, error, data, forceRefetch } = useFetchUser({
     userId: userId || '',
     skip: userId === '' || !userId || userId === '0',
   });
@@ -54,7 +54,7 @@ export const Main = ({ userId }: Props) => {
         </Box>
       )}
       {(data && !isLoading && !isError) || userId === '0' ? (
-        <Content user={data ? data : undefined} isLoading={isLoading} />
+        <Content user={data ? data : undefined} isLoading={isLoading} forceRefetch={forceRefetch}/>
       ) : null}
     </Box>
   );

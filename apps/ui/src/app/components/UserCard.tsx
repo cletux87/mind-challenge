@@ -185,7 +185,6 @@ export const UserCard = ({
         if (onInsertOrUpdateSuccess) {
           onInsertOrUpdateSuccess();
         }
-        console.log('response', response);
         navigate(`/app/user/${response.data.data.id}`);
       })
       .catch((err) => {

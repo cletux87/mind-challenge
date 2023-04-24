@@ -40,7 +40,9 @@ export const createUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const user = await deleteUserService(id);
+    const isActiveString = req.body.active.toLowerCase()
+    const isActive = isActiveString === 'true'
+    const user = await deleteUserService(id, isActive, req);
     res.json({ data: user });
   } catch (e) {
     res.status(400);

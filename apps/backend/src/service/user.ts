@@ -39,8 +39,14 @@ export const getAllUsers = async () => {
   return users.map((user) => transformDaoUserToDtoUser(user));
 };
 
-export const deleteUser = async (id: number) => {
-  const user = await deleteDaoUser(id);
+export const deleteUser = async (id: number, isActive: boolean, contextReq:any) => {
+  const user = await deleteDaoUser(id, isActive);
+  const log = await insertLog({
+    teamMoveId: undefined,
+    personMoveId: user.id,
+    personDoingOperationId: parseInt(contextReq.user.id),
+    movement: `${contextReq.user.id} ${contextReq.user.email} => ${isActive ? 'activate': 'deactivate'} person => ${user.id} ${user.email}`,
+  });
   return transformDaoUserToDtoUser(user);
 };
 

@@ -1,4 +1,4 @@
-import { UserRegisterDTO, UserUpdateDTO } from '@mind-challenge4/share-types';
+import { ActiveDTO, UserRegisterDTO, UserUpdateDTO } from '@mind-challenge4/share-types';
 import axios, { AxiosResponse } from 'axios';
 import { JWT_LOCAL_STORAGE_KEY } from '../../constants/auth';
 import {
@@ -117,6 +117,15 @@ export const createUser = ({
     }
   );
 };
+
+export const changeActiveUser = ({id, active}: ActiveDTO) => {
+  return client.patch<UserUpdateDTO>(
+    `/api/user/${id}`,
+    {
+      active,
+    }
+  )
+}
 
 export const doWhoami = async ({
   onSuccess,

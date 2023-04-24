@@ -20,7 +20,7 @@ import {
   validateGetUserSchema,
 } from './middleware/validators/user';
 import { validateAccountCreateSchema } from './middleware/validators/account';
-import { validateGetIdIsNumber } from './middleware/validators/common';
+import { validateActiveSchema, validateGetIdIsNumber } from './middleware/validators/common';
 import { validateTeamCreateSchema } from './middleware/validators/team';
 import { getAllLogs } from './handlers/teamLog';
 
@@ -33,7 +33,7 @@ router.get('/me', changeIdToMe, getUser);
 router.post('/user', isAdminUser, validateCreateUserSchema, createUser);
 router.get('/users', isAdminUser, getUsers);
 router.get('/user/:id', isAdminUser, validateGetUserSchema, getUser);
-router.delete('/user/:id', isAdminUser, validateGetUserSchema, deleteUser);
+router.patch('/user/:id', isAdminUser, validateActiveSchema, validateGetUserSchema, deleteUser);
 router.put('/user/:id', isAdminUser, updateUser);
 
 /**
