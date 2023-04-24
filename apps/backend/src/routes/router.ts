@@ -6,52 +6,49 @@ import {
   deleteUser,
   updateUser,
   updateUserToTeam,
-} from './handlers/user';
+} from '../handlers/user';
 import {
   getAccount,
   createAccount,
   getAccounts,
   deleteAccount,
   updateAccount,
-} from './handlers/account';
+} from '../handlers/account';
 import {
   createTeam,
   getTeam,
   getTeams,
   deleteTeam,
   getAccountTeams,
-} from './handlers/team';
-import { changeIdToMe, isAdminUser } from './middleware/users';
+} from '../handlers/team';
+import { changeIdToMe, isAdminUser } from '../middleware/users';
 import {
   onlyMeOrAdmin,
   validateCreateUserSchema,
   validateGetUserSchema,
   validateSearchUserQueryParams,
-} from './middleware/validators/user';
+} from '../middleware/validators/user';
 import {
   validateAccountCreateSchema,
   validateGetTeamSchema,
-} from './middleware/validators/account';
+} from '../middleware/validators/account';
 import {
   validateActiveSchema,
   validateGetIdIsNumber,
-} from './middleware/validators/common';
+} from '../middleware/validators/common';
 import {
   validateAddTeamMemberSchema,
   validateTeamCreateSchema,
-} from './middleware/validators/team';
+} from '../middleware/validators/team';
 import {
   getAllLogs,
   getLogs,
   getMyLogs,
   getTeamLogs,
-} from './handlers/teamLog';
+} from '../handlers/teamLog';
 
 const router = Router();
 
-/**
- * User
- */
 router.get('/me', changeIdToMe, getUser);
 router.post('/user', isAdminUser, validateCreateUserSchema, createUser);
 router.get('/users', isAdminUser, validateSearchUserQueryParams, getUsers);
@@ -65,9 +62,6 @@ router.patch(
 );
 router.put('/user/:id', onlyMeOrAdmin, updateUser);
 
-/**
- * Account
- */
 router.post(
   '/account',
   isAdminUser,
@@ -91,9 +85,6 @@ router.get(
   getAccountTeams
 );
 
-/**
- * Team
- */
 router.post('/team', isAdminUser, validateTeamCreateSchema, createTeam);
 router.get('/teams', isAdminUser, getTeams);
 router.get('/team/:id', isAdminUser, validateGetIdIsNumber, getTeam);
@@ -106,9 +97,6 @@ router.post(
   updateUserToTeam
 );
 
-/**
- * Logs
- */
 router.get('/logs', isAdminUser, getAllLogs);
 router.get('/mylogs', getMyLogs);
 router.get('/logs/user/:id', onlyMeOrAdmin, getLogs);

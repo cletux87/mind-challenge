@@ -12,7 +12,8 @@
     "storybook": "yarn nx run component-module:storybook",
     "ui-dev:docker": "yarn nx run ui:serve --host=0.0.0.0 --port=4200",
     "storybook:docker": "yarn nx run component-module:storybook --host=0.0.0.0 --port=4400",
-    "backend:dev:docker": "yarn nx run backend:serve --host=0.0.0.0 --port=3333"
+    "backend:dev:docker": "yarn nx run backend:serve --host=0.0.0.0 --port=3333",
+    "swagger-autogen": "node swagger.js"
   },
   "volta": {
     "node": "18.12.1",
@@ -41,6 +42,8 @@
     "react-dom": "18.2.0",
     "react-router-dom": "^6.10.0",
     "react-table": "^7.8.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2",
     "tslib": "^2.3.0",
     "yarn": "^1.22.19",
     "zod": "^3.21.4"
@@ -101,6 +104,7 @@
     "react-docgen-typescript-plugin": "^1.0.5",
     "react-refresh": "^0.10.0",
     "react-test-renderer": "18.2.0",
+    "swagger-autogen": "^2.23.1",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
