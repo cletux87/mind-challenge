@@ -2,6 +2,7 @@ import {
   searchUserSchema,
   userRegisterSchema,
 } from '@mind-challenge4/share-types';
+import e from 'express';
 
 export const validateGetUserSchema = (req, res, next) => {
   try {
@@ -46,5 +47,18 @@ export const validateSearchUserQueryParams = (req, res, next) => {
   } catch (err) {
     res.status(400);
     res.json({ errors: err.errors[0].message });
+  }
+};
+
+// I only can see my results or admin all results
+export const onlyMeOrAdmin = (req, res, next) => {
+  const user = req.user;
+  if (user.role === 'ADMIN') {
+    next();
+  } else if (user.role === 'USER' && req.params.id == req.user.id) {
+    next();
+  } else {
+    res.status(401);
+    res.json({ errors: 'Un-authorized admin functions' });
   }
 };

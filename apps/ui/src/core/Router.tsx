@@ -42,7 +42,7 @@ const Router = () => {
           <Route
             path=":id"
             element={
-              <AuthPage onlyAdmin>
+              <AuthPage ownUserOnly>
                 <User />
               </AuthPage>
             }

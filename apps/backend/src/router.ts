@@ -23,6 +23,7 @@ import {
 } from './handlers/team';
 import { changeIdToMe, isAdminUser } from './middleware/users';
 import {
+  onlyMeOrAdmin,
   validateCreateUserSchema,
   validateGetUserSchema,
   validateSearchUserQueryParams,
@@ -54,7 +55,7 @@ const router = Router();
 router.get('/me', changeIdToMe, getUser);
 router.post('/user', isAdminUser, validateCreateUserSchema, createUser);
 router.get('/users', isAdminUser, validateSearchUserQueryParams, getUsers);
-router.get('/user/:id', isAdminUser, validateGetUserSchema, getUser);
+router.get('/user/:id', onlyMeOrAdmin, validateGetUserSchema, getUser);
 router.patch(
   '/user/:id',
   isAdminUser,
@@ -62,7 +63,7 @@ router.patch(
   validateGetUserSchema,
   deleteUser
 );
-router.put('/user/:id', isAdminUser, updateUser);
+router.put('/user/:id', onlyMeOrAdmin, updateUser);
 
 /**
  * Account
@@ -110,7 +111,7 @@ router.post(
  */
 router.get('/logs', isAdminUser, getAllLogs);
 router.get('/mylogs', getMyLogs);
-router.get('/logs/user/:id', isAdminUser, getLogs);
+router.get('/logs/user/:id', onlyMeOrAdmin, getLogs);
 router.get('/logs/team/:id', isAdminUser, getTeamLogs);
 
 export default router;

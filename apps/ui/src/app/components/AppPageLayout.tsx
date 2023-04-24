@@ -9,7 +9,7 @@ import { JWT_LOCAL_STORAGE_KEY } from '../../constants/auth';
 import { useAuthUserContext } from '../../context/AuthUser';
 import { useNavigate } from 'react-router-dom';
 
-const navigationItems: INavMenu[] = [
+const adminNavigationItems: INavMenu[] = [
   {
     type: 'home',
     path: '/app/dashboard/me',
@@ -34,6 +34,19 @@ const navigationItems: INavMenu[] = [
     type: 'documents',
     path: '/app/logs',
     match: ['/app/logs'],
+  },
+];
+
+const getUserNavigationItems = (userId: string): INavMenu[] => [
+  {
+    type: 'home',
+    path: '/app/dashboard/me',
+    match: ['/app/dashboard/:id'],
+  },
+  {
+    type: 'team',
+    path: `/app/user/${userId}`,
+    match: ['/app/user/:id'],
   },
 ];
 
@@ -74,8 +87,8 @@ export const AppPageLayout = ({ children }: Props) => {
         avatarFirstName="T"
         navigation={
           state.user?.role === 'USER'
-            ? navigationItems.slice(0, 1)
-            : navigationItems
+            ? getUserNavigationItems(String(state.user.id))
+            : adminNavigationItems
         }
       >
         <Box
