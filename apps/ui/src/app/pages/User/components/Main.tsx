@@ -54,7 +54,11 @@ export const Main = ({ userId }: Props) => {
         </Box>
       )}
       {(data && !isLoading && !isError) || userId === '0' ? (
-        <Content user={data ? data : undefined} isLoading={isLoading} forceRefetch={forceRefetch}/>
+        <Content
+          user={data ? data : undefined}
+          isLoading={isLoading}
+          forceRefetch={forceRefetch}
+        />
       ) : null}
     </Box>
   );

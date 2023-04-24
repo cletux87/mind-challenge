@@ -20,9 +20,12 @@ import {
   validateGetUserSchema,
 } from './middleware/validators/user';
 import { validateAccountCreateSchema } from './middleware/validators/account';
-import { validateActiveSchema, validateGetIdIsNumber } from './middleware/validators/common';
+import {
+  validateActiveSchema,
+  validateGetIdIsNumber,
+} from './middleware/validators/common';
 import { validateTeamCreateSchema } from './middleware/validators/team';
-import { getAllLogs } from './handlers/teamLog';
+import { getAllLogs, getLogs, getMyLogs } from './handlers/teamLog';
 
 const router = Router();
 
@@ -33,7 +36,13 @@ router.get('/me', changeIdToMe, getUser);
 router.post('/user', isAdminUser, validateCreateUserSchema, createUser);
 router.get('/users', isAdminUser, getUsers);
 router.get('/user/:id', isAdminUser, validateGetUserSchema, getUser);
-router.patch('/user/:id', isAdminUser, validateActiveSchema, validateGetUserSchema, deleteUser);
+router.patch(
+  '/user/:id',
+  isAdminUser,
+  validateActiveSchema,
+  validateGetUserSchema,
+  deleteUser
+);
 router.put('/user/:id', isAdminUser, updateUser);
 
 /**
@@ -64,6 +73,11 @@ router.get('/team/:id', isAdminUser, validateGetIdIsNumber, getTeam);
 router.delete('/team/:id', isAdminUser, validateGetIdIsNumber, deleteTeam);
 router.put('/team/:id', isAdminUser, validateGetIdIsNumber, updateAccount);
 
+/**
+ * Logs
+ */
 router.get('/logs', isAdminUser, getAllLogs);
+router.get('/mylogs', getMyLogs);
+router.get('/logs/user/:id', isAdminUser, getLogs);
 
 export default router;

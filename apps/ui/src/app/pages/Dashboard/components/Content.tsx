@@ -3,6 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { UserDTO } from '@mind-challenge4/share-types';
 import { UserCard } from '../../../components/UserCard';
 import { useAuthUserContext } from '../../../../context/AuthUser';
+import { useFetchMyLogs } from '../../../hooks/useFetchMyLogs';
+import { LogsTable } from '../../../components/LogsTable';
 
 interface Props {
   userDto: UserDTO;
@@ -10,6 +12,8 @@ interface Props {
 
 export const Content = ({ userDto }: Props) => {
   const { state } = useAuthUserContext();
+
+  const { isLoading: isLoadingLogs, data: logsData } = useFetchMyLogs({});
   return (
     <Box
       sx={{
@@ -28,6 +32,16 @@ export const Content = ({ userDto }: Props) => {
       >{`Welcome ${state.user?.username}`}</Typography>
       <Box sx={(theme) => ({ padding: theme.spacing(3) })}>
         <UserCard userDto={userDto} />
+      </Box>
+      <Box>
+        <LogsTable
+          logs={
+            logsData?.totalResults && logsData.totalResults === 0
+              ? []
+              : logsData?.logs || []
+          }
+          isLoading={isLoadingLogs}
+        />
       </Box>
     </Box>
   );

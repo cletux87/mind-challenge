@@ -8,3 +8,5 @@ export const END_POINT_ACCOUNT = '/api/account';
 export const END_POINT_TEAM = '/api/team';
 export const END_POINT_TEAMS = '/api/teams';
 export const END_POINT_LOGS = '/api/logs';
+export const END_POINT_OWN_LOGS = '/api/mylogs';
+export const END_POINT_USER_LOGS = '/api/logs/user';

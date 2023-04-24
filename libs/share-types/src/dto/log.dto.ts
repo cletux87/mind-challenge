@@ -11,3 +11,8 @@ export const logSchema = object({
 });
 
 export type LogDTO = TypeOf<typeof logSchema>;
+
+export type LogDTOWithPagination = {
+  logs: LogDTO[];
+  totalResults?: number;
+};
