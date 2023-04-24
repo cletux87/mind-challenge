@@ -72,6 +72,14 @@ postgres-# \q
 
 Once docker is running and have a schema lets install node dependencies
 
+you can run docker with
+
+```
+./start-dev.sh
+```
+
+Make sure to add +x to start-dev
+
 ### Node
 
 On the repository run
