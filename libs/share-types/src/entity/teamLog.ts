@@ -6,4 +6,5 @@ export interface TeamLogEntity {
   teamMoveId: number;
   personMoveId: number;
   personDoingOperationId: number;
+  accountMove: number;
 }

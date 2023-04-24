@@ -3,9 +3,9 @@ import { Box, Typography } from '@mui/material';
 import { UserDTO } from '@mind-challenge4/share-types';
 import { UserForm } from './UserForm';
 import { changeActiveUser } from '../../../../services/user';
-import { SpinnerButton } from '../../../components/SpinnerButton';
 import { useFetchUserLogs } from '../../../hooks/useFetchUserLogs';
 import { LogsTable } from '../../../components/LogsTable';
+import { EnableDisableButton } from '../../../components/EnableDisableButton';
 
 interface Props {
   user?: UserDTO;
@@ -67,28 +67,12 @@ export const Content = ({ user, isLoading, forceRefetch }: Props) => {
       </Box>
       <UserForm user={user} isLoading={isLoading} />
       {!isLoading && user && (
-        <Box display="flex" justifyContent="space-between">
-          <Box display="flex" gap="4px">
-            <Box
-              sx={{
-                height: '20px',
-                width: '20px',
-                background: user?.endDate ? 'red' : 'green',
-              }}
-            />
-            <Typography component="span">
-              {user?.endDate ? 'Inactive' : 'Active'}
-            </Typography>
-          </Box>
-          <SpinnerButton
-            variant="contained"
-            onClick={handleActivate}
-            loading={isLocalLoading}
-            sx={{ padding: '2px 4px' }}
-          >
-            {user?.endDate ? 'Activate User' : 'Inactivate User'}
-          </SpinnerButton>
-        </Box>
+        <EnableDisableButton
+          onClick={handleActivate}
+          title="User"
+          isLoading={isLocalLoading}
+          conditionIsInactive={!!user?.endDate}
+        />
       )}
       <Box>
         <LogsTable

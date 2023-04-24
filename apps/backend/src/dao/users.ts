@@ -6,8 +6,21 @@ import {
 } from '@mind-challenge4/share-types';
 import prisma from '../db';
 
-export const getAllUsers = async () => {
-  const users = await prisma.user.findMany();
+export const getAllUsers = async ({
+  userName,
+  teamId,
+}: {
+  userName?: string;
+  teamId?: number | null;
+}) => {
+  const users = await prisma.user.findMany({
+    where: {
+      email: {
+        contains: userName,
+      },
+      teamId,
+    },
+  });
   return users;
 };
 
@@ -35,7 +48,7 @@ export const deleteUser = async (id: number, isActive: boolean) => {
       id,
     },
     data: {
-      endDate: isActive ? null :new Date(),
+      endDate: isActive ? null : new Date(),
     },
   });
   return user;
@@ -87,6 +100,24 @@ export const updateUser = async ({
       role: mapRole(role),
       englishLevel: mapEnglishLevel(englishLevel),
       ...(password ? { password } : {}),
+    },
+  });
+  return user;
+};
+
+export const changeTeam = async ({
+  userId,
+  teamId,
+}: {
+  userId: number;
+  teamId: number | null;
+}) => {
+  const user = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      teamId,
     },
   });
   return user;

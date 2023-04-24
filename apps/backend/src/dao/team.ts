@@ -27,3 +27,12 @@ export const createTeam = async ({
   });
   return team;
 };
+
+export const getAccountTeams = async (accountId: number) => {
+  const teams = await prisma.team.findMany({
+    where: {
+      accountId,
+    },
+  });
+  return teams;
+};

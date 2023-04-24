@@ -1,6 +1,6 @@
 import { TeamDTO } from '@mind-challenge4/share-types';
 import React from 'react';
-import { Box, Button, Card, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 
 import { ReportDataTable } from '@mind-challenge4/component-module';
 import { useNavigate } from 'react-router-dom';
@@ -32,10 +32,6 @@ export const Content = ({ users, isLoading }: Props) => {
     navigate(`/app/team/${id}`);
   };
 
-  const onAddUser = () => {
-    navigate('/app/team/0');
-  };
-
   return (
     <Box sx={(theme) => ({ padding: theme.spacing(2) })}>
       <Box
@@ -48,11 +44,6 @@ export const Content = ({ users, isLoading }: Props) => {
         })}
       >
         <Typography sx={{ fontSize: '1.5rem' }}>All Teams</Typography>
-        <Button variant="contained" onClick={onAddUser}>
-          <Typography padding={0.5} fontSize="0.9rem">
-            +Add Team
-          </Typography>
-        </Button>
       </Box>
       <Card sx={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
         <ReportDataTable

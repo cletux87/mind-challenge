@@ -6,11 +6,16 @@ import {
 } from '../service/account';
 
 export const createAccount = async (req, res) => {
-  const account = await createAccountService({
-    clientName: req.body.clientName,
-    name: req.body.name,
-  });
-  res.json({ data: account });
+  try {
+    const account = await createAccountService({
+      clientName: req.body.clientName,
+      name: req.body.name,
+    });
+    res.json({ data: account });
+  } catch (e) {
+    res.status(500);
+    res.json({ errors: 'Something went wrong please try again later' });
+  }
 };
 
 export const getAccount = async (req, res) => {
@@ -26,8 +31,13 @@ export const getAccount = async (req, res) => {
 };
 
 export const getAccounts = async (req, res) => {
-  const accounts = await getAccountsService();
-  res.json({ data: accounts });
+  try {
+    const accounts = await getAccountsService();
+    res.json({ data: accounts });
+  } catch (e) {
+    res.status(500);
+    res.json({ errors: 'Something went wrong please try again later' });
+  }
 };
 
 export const deleteAccount = async (req, res) => {

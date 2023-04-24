@@ -46,15 +46,21 @@ export const insertLog = async ({
   personMoveId,
   personDoingOperationId,
   movement,
+  accountMove,
 }: Pick<
   TeamLogEntity,
-  'teamMoveId' | 'personMoveId' | 'personDoingOperationId' | 'movement'
+  | 'teamMoveId'
+  | 'personMoveId'
+  | 'personDoingOperationId'
+  | 'movement'
+  | 'accountMove'
 >) => {
   const log = await createTeamLog({
     teamMoveId,
     personMoveId,
     personDoingOperationId,
     movement,
+    accountMove,
   });
   return log;
 };

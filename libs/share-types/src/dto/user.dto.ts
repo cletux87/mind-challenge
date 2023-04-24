@@ -1,4 +1,4 @@
-import { object, string, TypeOf } from 'zod';
+import { number, object, string, TypeOf } from 'zod';
 
 export const userRegisterSchema = object({
   email: string({ required_error: 'Email is required' }).email('Invalid email'),
@@ -37,3 +37,10 @@ export const userUpdateSchema = object({
 });
 
 export type UserUpdateDTO = TypeOf<typeof userUpdateSchema>;
+
+export const searchUserSchema = object({
+  email: string({ required_error: 'Email is required' }).optional(),
+  teamId: string({ required_error: 'team Id is required' }).optional(),
+});
+
+export type SearchUserDTO = TypeOf<typeof searchUserSchema>;

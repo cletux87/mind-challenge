@@ -16,3 +16,16 @@ export const teamSchema = object({
 });
 
 export type TeamDTO = TypeOf<typeof teamSchema>;
+
+export const getTeamsSchema = object({
+  accountId: number({ required_error: 'Account Id is Required' }),
+});
+
+export type GetTeamsDTO = TypeOf<typeof getTeamsSchema>;
+
+export const addTeamMemberSchema = object({
+  teamId: number({ required_error: 'teamId needs to be a number' }),
+  userId: number({ required_error: 'userId needs to be a number' }),
+});
+
+export type AddTeamMemberDTO = TypeOf<typeof addTeamMemberSchema>;

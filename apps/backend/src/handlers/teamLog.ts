@@ -16,8 +16,13 @@ export const getTeamLogs = async (req, res) => {
 };
 
 export const getAllLogs = async (req, res) => {
-  const logs = await getAllLogsService();
-  res.json({ data: logs });
+  try {
+    const logs = await getAllLogsService();
+    res.json({ data: logs });
+  } catch (e) {
+    res.status(500);
+    res.json({ errors: 'Something went wrong please try again later' });
+  }
 };
 
 export const getMyLogs = async (req, res) => {

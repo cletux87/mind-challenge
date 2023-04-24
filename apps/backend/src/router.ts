@@ -5,6 +5,7 @@ import {
   createUser,
   deleteUser,
   updateUser,
+  updateUserToTeam,
 } from './handlers/user';
 import {
   getAccount,
@@ -13,18 +14,31 @@ import {
   deleteAccount,
   updateAccount,
 } from './handlers/account';
-import { createTeam, getTeam, getTeams, deleteTeam } from './handlers/team';
+import {
+  createTeam,
+  getTeam,
+  getTeams,
+  deleteTeam,
+  getAccountTeams,
+} from './handlers/team';
 import { changeIdToMe, isAdminUser } from './middleware/users';
 import {
   validateCreateUserSchema,
   validateGetUserSchema,
+  validateSearchUserQueryParams,
 } from './middleware/validators/user';
-import { validateAccountCreateSchema } from './middleware/validators/account';
+import {
+  validateAccountCreateSchema,
+  validateGetTeamSchema,
+} from './middleware/validators/account';
 import {
   validateActiveSchema,
   validateGetIdIsNumber,
 } from './middleware/validators/common';
-import { validateTeamCreateSchema } from './middleware/validators/team';
+import {
+  validateAddTeamMemberSchema,
+  validateTeamCreateSchema,
+} from './middleware/validators/team';
 import { getAllLogs, getLogs, getMyLogs } from './handlers/teamLog';
 
 const router = Router();
@@ -34,7 +48,7 @@ const router = Router();
  */
 router.get('/me', changeIdToMe, getUser);
 router.post('/user', isAdminUser, validateCreateUserSchema, createUser);
-router.get('/users', isAdminUser, getUsers);
+router.get('/users', isAdminUser, validateSearchUserQueryParams, getUsers);
 router.get('/user/:id', isAdminUser, validateGetUserSchema, getUser);
 router.patch(
   '/user/:id',
@@ -63,6 +77,13 @@ router.delete(
   deleteAccount
 );
 router.put('/account/:id', isAdminUser, validateGetIdIsNumber, updateAccount);
+router.get(
+  '/account/teams/:id',
+  isAdminUser,
+  validateGetIdIsNumber,
+  validateGetTeamSchema,
+  getAccountTeams
+);
 
 /**
  * Team
@@ -72,6 +93,12 @@ router.get('/teams', isAdminUser, getTeams);
 router.get('/team/:id', isAdminUser, validateGetIdIsNumber, getTeam);
 router.delete('/team/:id', isAdminUser, validateGetIdIsNumber, deleteTeam);
 router.put('/team/:id', isAdminUser, validateGetIdIsNumber, updateAccount);
+router.post(
+  '/team/changeMember',
+  isAdminUser,
+  validateAddTeamMemberSchema,
+  updateUserToTeam
+);
 
 /**
  * Logs

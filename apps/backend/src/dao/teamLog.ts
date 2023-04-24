@@ -69,9 +69,14 @@ export const createTeamLog = async ({
   personMoveId,
   personDoingOperationId,
   movement,
+  accountMove,
 }: Pick<
   TeamLogEntity,
-  'teamMoveId' | 'personMoveId' | 'personDoingOperationId' | 'movement'
+  | 'teamMoveId'
+  | 'personMoveId'
+  | 'personDoingOperationId'
+  | 'movement'
+  | 'accountMove'
 >) => {
   const teamLog = prisma.teamLog.create({
     data: {

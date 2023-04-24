@@ -3,6 +3,7 @@ import {
   createTeam as createTeamDao,
   getTeam as getTeamDao,
   getAllTeams as getTeamsDao,
+  getAccountTeams as getAccountTeamsDao,
 } from '../dao/team';
 
 export const getTeam = async (id: number) => {
@@ -16,9 +17,14 @@ export const getAllTeams = async () => {
 };
 
 export const createTeam = async ({ teamName, accountId }: TeamRegisterDTO) => {
-  const team = createTeamDao({
+  const team = await createTeamDao({
     teamName,
     accountId,
   });
   return team;
+};
+
+export const getAccountTeams = async (accountId: number) => {
+  const teams = await getAccountTeamsDao(accountId);
+  return teams;
 };

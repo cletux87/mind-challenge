@@ -15,7 +15,7 @@ export const Main = ({ teamId }: Props) => {
     setSnackbarOpen(false);
   };
 
-  const { isLoading, isError, error, data } = useFetchTeam({
+  const { isLoading, isError, error, data, forceRefetch } = useFetchTeam({
     teamId: teamId || '',
     skip: teamId === '' || !teamId || teamId === '0',
   });
@@ -54,7 +54,11 @@ export const Main = ({ teamId }: Props) => {
         </Box>
       )}
       {(data && !isLoading && !isError) || teamId === '0' ? (
-        <Content team={data ? data : undefined} isLoading={isLoading} />
+        <Content
+          team={data ? data : undefined}
+          isLoading={isLoading}
+          forceRefetch={forceRefetch}
+        />
       ) : null}
     </Box>
   );

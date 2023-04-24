@@ -90,6 +90,7 @@ interface Props {
   useExtendedCard?: boolean;
   isNewTeam?: boolean;
   onInsertOrUpdateSuccess?: () => void;
+  accountId?: number;
 }
 
 export const TeamCard = ({
@@ -97,6 +98,7 @@ export const TeamCard = ({
   useExtendedCard = false,
   isNewTeam = false,
   onInsertOrUpdateSuccess,
+  accountId,
 }: Props) => {
   const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
@@ -121,7 +123,7 @@ export const TeamCard = ({
     setWriteMode(false);
     updateTeam({
       teamName: name,
-      accountId: 1,
+      accountId: accountId || 1,
     })
       .then(() => {
         if (onInsertOrUpdateSuccess) {

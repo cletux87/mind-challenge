@@ -33,6 +33,7 @@ model Account {
   clientName String
   teams Team[]
   disableDate DateTime?
+  accountLogs TeamLog[]
 }
 
 model Team {
@@ -53,6 +54,8 @@ model TeamLog {
   movement String @db.VarChar(255)
   teamMove Team? @relation(fields: [teamMoveId], references: [id])
   teamMoveId Int?
+  accountMove Account? @relation(fields: [accountId], references:[id])
+  accountId Int?
   personMove User? @relation("personMove",fields: [personMoveId], references: [id])
   personMoveId Int? 
   personDoingOperation User? @relation("personDoingOperation",fields: [personDoingOperationId], references: [id])

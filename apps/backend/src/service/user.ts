@@ -4,6 +4,7 @@ import {
   deleteUser as deleteDaoUser,
   createUser as createDaoUser,
   updateUser as updateDaoUser,
+  changeTeam as changeTeamDao,
 } from '../dao/users';
 import {
   mapEnglishLevel,
@@ -34,18 +35,31 @@ export const getUser = async (id: number) => {
   return transformDaoUserToDtoUser(user);
 };
 
-export const getAllUsers = async () => {
-  const users = await getAllDaoUsers();
+export const getAllUsers = async ({
+  userName,
+  teamId,
+}: {
+  userName?: string;
+  teamId?: number | null;
+}) => {
+  const users = await getAllDaoUsers({ userName, teamId });
   return users.map((user) => transformDaoUserToDtoUser(user));
 };
 
-export const deleteUser = async (id: number, isActive: boolean, contextReq:any) => {
+export const deleteUser = async (
+  id: number,
+  isActive: boolean,
+  contextReq: any
+) => {
   const user = await deleteDaoUser(id, isActive);
   const log = await insertLog({
     teamMoveId: undefined,
     personMoveId: user.id,
     personDoingOperationId: parseInt(contextReq.user.id),
-    movement: `${contextReq.user.id} ${contextReq.user.email} => ${isActive ? 'activate': 'deactivate'} person => ${user.id} ${user.email}`,
+    movement: `${contextReq.user.id} ${contextReq.user.email} => ${
+      isActive ? 'activate' : 'deactivate'
+    } person => ${user.id} ${user.email}`,
+    accountMove: undefined,
   });
   return transformDaoUserToDtoUser(user);
 };
@@ -75,6 +89,7 @@ export const createUser = async ({
     personMoveId: user.id,
     personDoingOperationId: parseInt(contextReq.user.id),
     movement: `${contextReq.user.id} ${contextReq.user.email} => create  person => ${user.id} ${user.email}`,
+    accountMove: undefined,
   });
   return transformDaoUserToDtoUser(user);
 };
@@ -99,5 +114,16 @@ export const updateUser = async ({
     englishLevel,
     password,
   });
+  return user;
+};
+
+export const changeTeam = async ({
+  teamId,
+  userId,
+}: {
+  teamId: number | null;
+  userId: number;
+}) => {
+  const user = await changeTeamDao({ userId, teamId });
   return user;
 };

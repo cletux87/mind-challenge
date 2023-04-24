@@ -1,4 +1,7 @@
-import { userRegisterSchema } from '@mind-challenge4/share-types';
+import {
+  searchUserSchema,
+  userRegisterSchema,
+} from '@mind-challenge4/share-types';
 
 export const validateGetUserSchema = (req, res, next) => {
   try {
@@ -25,7 +28,20 @@ export const validateCreateUserSchema = (req, res, next) => {
       password: req.body.password,
     });
     next();
-  } catch (err: any) {
+  } catch (err) {
+    res.status(400);
+    res.json({ errors: err.errors[0].message });
+  }
+};
+
+export const validateSearchUserQueryParams = (req, res, next) => {
+  try {
+    searchUserSchema.parse({
+      email: req.query.email,
+      teamId: req.query.teamId,
+    });
+    next();
+  } catch (err) {
     res.status(400);
     res.json({ errors: err.errors[0].message });
   }
