@@ -15,7 +15,7 @@ export const Main = ({ accountId }: Props) => {
     setSnackbarOpen(false);
   };
 
-  const { isLoading, isError, error, data } = useFetchAccount({
+  const { isLoading, isError, error, data, forceRefetch } = useFetchAccount({
     accountId: accountId || '',
     skip: accountId === '' || !accountId || accountId === '0',
   });
@@ -54,7 +54,11 @@ export const Main = ({ accountId }: Props) => {
         </Box>
       )}
       {(data && !isLoading && !isError) || accountId === '0' ? (
-        <Content account={data ? data : undefined} isLoading={isLoading} />
+        <Content
+          account={data ? data : undefined}
+          isLoading={isLoading}
+          forceRefetch={forceRefetch}
+        />
       ) : null}
     </Box>
   );

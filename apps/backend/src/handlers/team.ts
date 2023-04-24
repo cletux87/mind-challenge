@@ -15,6 +15,7 @@ export const createTeam = async (req, res) => {
     });
     res.json({ data: team });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'assignedAccount has an incorrect format' });
   }
@@ -26,6 +27,7 @@ export const getTeam = async (req, res) => {
     const team = await getTeamService(id);
     res.json({ data: team });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has an incorrect format' });
   }
@@ -37,6 +39,7 @@ export const getAccountTeams = async (req, res) => {
     const team = await getAccountTeamsService(id);
     res.json({ data: team });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has an incorrect format' });
   }
@@ -47,6 +50,7 @@ export const getTeams = async (req, res) => {
     const teams = await getAllTeamsService();
     res.json({ data: teams });
   } catch (e) {
+    console.log(e);
     res.status(500);
     res.json({ errors: 'Something went wrong please try again later' });
   }

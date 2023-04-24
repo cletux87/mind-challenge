@@ -1,4 +1,4 @@
-import { number, object, string, TypeOf } from 'zod';
+import { object, string, TypeOf } from 'zod';
 
 export const userRegisterSchema = object({
   email: string({ required_error: 'Email is required' }).email('Invalid email'),
@@ -8,6 +8,8 @@ export const userRegisterSchema = object({
   role: string({ required_error: 'Role is required' }),
   englishLevel: string({ required_error: 'English level is required' }),
   password: string({ required_error: 'Password is needed' }),
+  skills: string({ required_error: 'skills is needed' }).optional(),
+  cvLink: string({ required_error: 'cv link is needed' }).optional(),
 });
 
 export type UserRegisterDTO = TypeOf<typeof userRegisterSchema>;
@@ -34,6 +36,8 @@ export const userUpdateSchema = object({
   role: string({ required_error: 'Role is required' }),
   englishLevel: string({ required_error: 'English level is required' }),
   password: string({ required_error: 'Password is needed' }).optional(),
+  skills: string({ required_error: 'skills is needed' }).optional(),
+  cvLink: string({ required_error: 'cv link is needed' }).optional(),
 });
 
 export type UserUpdateDTO = TypeOf<typeof userUpdateSchema>;

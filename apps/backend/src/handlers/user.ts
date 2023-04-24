@@ -14,6 +14,7 @@ export const getUser = async (req, res) => {
     res.json({ data: user });
     res.status(200);
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }
@@ -36,6 +37,7 @@ export const getUsers = async (req, res) => {
     });
     res.json({ data: users });
   } catch (e) {
+    console.log(e);
     res.status(500);
     res.json({ errors: 'Something went wrong please try again later' });
   }
@@ -50,6 +52,8 @@ export const createUser = async (req, res) => {
     role: req.body.role,
     englishLevel: req.body.englishLevel,
     password: req.body.password,
+    skills: req.body.skills,
+    cvLink: req.body.cvLink,
     contextReq: req,
   });
   res.json({ data: user });
@@ -63,6 +67,7 @@ export const deleteUser = async (req, res) => {
     const user = await deleteUserService(id, isActive, req);
     res.json({ data: user });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }
@@ -79,10 +84,13 @@ export const updateUser = async (req, res) => {
       phone: req.body.phone,
       role: req.body.role,
       englishLevel: req.body.englishLevel,
+      skills: req.body.skills,
+      cvLink: req.body.cvLink,
       password: req.body.password,
     });
     res.json({ data: user });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }
@@ -95,9 +103,11 @@ export const updateUserToTeam = async (req, res) => {
     const user = await changeTeam({
       userId,
       teamId: teamId === 0 ? null : teamId,
+      contextReq: req,
     });
     res.json({ data: user });
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }

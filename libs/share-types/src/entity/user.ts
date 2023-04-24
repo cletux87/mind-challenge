@@ -10,6 +10,8 @@ export interface UserEntity {
   startDate: string;
   endDate?: string;
   englishLevel: EnglishLevel;
+  skills?: string;
+  cvLink?: string;
 }
 
 export enum Role {

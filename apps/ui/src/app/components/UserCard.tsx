@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { updateUser, createUser } from '../../services/user';
 import { SpinnerButton } from './SpinnerButton';
 
@@ -96,6 +95,7 @@ interface Props {
   useExtendedCard?: boolean;
   isNewUser?: boolean;
   onInsertOrUpdateSuccess?: () => void;
+  forceRefetch?: () => void;
 }
 
 export const UserCard = ({
@@ -103,8 +103,8 @@ export const UserCard = ({
   useExtendedCard = false,
   isNewUser = false,
   onInsertOrUpdateSuccess,
+  forceRefetch,
 }: Props) => {
-  const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -115,6 +115,8 @@ export const UserCard = ({
   const [endDate, setEndDate] = useState('');
   const [startDate, setStartDate] = useState('');
   const [password, setPassword] = useState('');
+  const [cvLink, setCvLink] = useState('');
+  const [skills, setSkills] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState('');
@@ -129,6 +131,8 @@ export const UserCard = ({
       setStartDate(userDto.startDate || '');
       setRole(mapRole(userDto.role));
       setEndDate(userDto.endDate);
+      setCvLink(userDto.cvLink || '');
+      setSkills(userDto.skills || '');
       setEnglishLevel(mapEnglishLevel(userDto.englishLevel));
     }
   }, [isNewUser, userDto]);
@@ -147,13 +151,17 @@ export const UserCard = ({
         phone,
         role,
         englishLevel,
+        skills,
+        cvLink,
       },
     })
       .then(() => {
         if (onInsertOrUpdateSuccess) {
           onInsertOrUpdateSuccess();
         }
-        navigate(`/app/user/${userDto?.id || ''}`);
+        if (forceRefetch) {
+          forceRefetch();
+        }
       })
       .catch((err) => {
         setIsError(true);
@@ -165,6 +173,11 @@ export const UserCard = ({
   };
 
   const handleSave = () => {
+    if (password === '' || password.length < 8) {
+      setError('Password needs to be bigger then 8 characters');
+      setSnackbarOpen(true);
+      return;
+    }
     setIsLoading(true);
     setIsError(false);
     setError('');
@@ -179,13 +192,17 @@ export const UserCard = ({
         role,
         englishLevel,
         password,
+        skills,
+        cvLink,
       },
     })
       .then((response) => {
         if (onInsertOrUpdateSuccess) {
           onInsertOrUpdateSuccess();
         }
-        navigate(`/app/user/${response.data.data.id}`);
+        if (forceRefetch) {
+          forceRefetch();
+        }
       })
       .catch((err) => {
         setIsError(true);
@@ -208,7 +225,9 @@ export const UserCard = ({
     userDto?.lastName === lastName &&
     userDto?.phone === phone &&
     userDto?.role === role &&
-    userDto?.englishLevel === englishLevel;
+    userDto?.englishLevel === englishLevel &&
+    userDto?.cvLink === cvLink &&
+    userDto?.skills === skills;
 
   if (!userDto && !isNewUser) {
     return (
@@ -340,6 +359,20 @@ export const UserCard = ({
                 EnglishLevel.BASIC,
                 EnglishLevel.ADVANCED,
               ]}
+            />
+          </Box>
+          <Box display="flex">
+            <SmallSpace
+              title="Cv Link"
+              value={cvLink}
+              editValue={writeMode}
+              onChange={setCvLink}
+            />
+            <SmallSpace
+              title="Skills"
+              value={skills}
+              editValue={writeMode}
+              onChange={setSkills}
             />
           </Box>
           {writeMode && (

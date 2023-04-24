@@ -20,13 +20,13 @@ const columns = [
     accessor: 'createdAt',
   },
 ];
-
 interface Props {
   account?: AccountsDTO;
   isLoading?: boolean;
+  forceRefetch?: () => void;
 }
 
-export const Content = ({ account, isLoading }: Props) => {
+export const Content = ({ account, isLoading, forceRefetch }: Props) => {
   const [openNewTeam, setOpenNewTeam] = useState(false);
   const navigate = useNavigate();
 
@@ -87,11 +87,17 @@ export const Content = ({ account, isLoading }: Props) => {
                 useExtendedCard
                 isNewTeam={true}
                 accountId={account.id}
+                forceRefetch={forceRefetch}
               />
             </Box>
           )}
           <Box>
-            <Card sx={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
+            <Card
+              sx={{
+                boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                marginTop: 2,
+              }}
+            >
               <ReportDataTable
                 data={teamsData || []}
                 loading={isTeamsLoading}

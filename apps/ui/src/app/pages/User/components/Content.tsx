@@ -65,7 +65,7 @@ export const Content = ({ user, isLoading, forceRefetch }: Props) => {
           {title}
         </Typography>
       </Box>
-      <UserForm user={user} isLoading={isLoading} />
+      <UserForm user={user} isLoading={isLoading} forceRefetch={forceRefetch} />
       {!isLoading && user && (
         <EnableDisableButton
           onClick={handleActivate}
@@ -74,16 +74,18 @@ export const Content = ({ user, isLoading, forceRefetch }: Props) => {
           conditionIsInactive={!!user?.endDate}
         />
       )}
-      <Box>
-        <LogsTable
-          logs={
-            logsData?.totalResults && logsData.totalResults === 0
-              ? []
-              : logsData?.logs || []
-          }
-          isLoading={isLoadingLogs}
-        />
-      </Box>
+      {user?.id && (
+        <Box>
+          <LogsTable
+            logs={
+              logsData?.totalResults && logsData.totalResults === 0
+                ? []
+                : logsData?.logs || []
+            }
+            isLoading={isLoadingLogs}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

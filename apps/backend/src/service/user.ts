@@ -27,6 +27,8 @@ const transformDaoUserToDtoUser = (daoUser): UserDTO => {
     endDate: daoUser.endDate,
     role: daoUser.role,
     id: daoUser.id,
+    skills: daoUser.skills,
+    cvLink: daoUser.cvLink,
   };
 };
 
@@ -73,6 +75,8 @@ export const createUser = async ({
   englishLevel,
   password,
   contextReq,
+  cvLink,
+  skills,
 }: UserRegisterDTO & { contextReq: any }) => {
   const newPassword = await hashPassword(password);
   const user = await createDaoUser({
@@ -83,6 +87,8 @@ export const createUser = async ({
     role: mapRole(role),
     englishLevel: mapEnglishLevel(englishLevel),
     password: newPassword,
+    skills,
+    cvLink,
   });
   const log = await insertLog({
     teamMoveId: undefined,
@@ -103,6 +109,8 @@ export const updateUser = async ({
   role,
   englishLevel,
   password,
+  cvLink,
+  skills,
 }: UserUpdateDTO & { id: number }) => {
   const user = await updateDaoUser({
     id,
@@ -113,6 +121,8 @@ export const updateUser = async ({
     role,
     englishLevel,
     password,
+    cvLink,
+    skills,
   });
   return user;
 };
@@ -120,10 +130,22 @@ export const updateUser = async ({
 export const changeTeam = async ({
   teamId,
   userId,
+  contextReq,
 }: {
   teamId: number | null;
   userId: number;
+  contextReq: any;
 }) => {
+  const oldUseData = await await getDaoUser(userId);
   const user = await changeTeamDao({ userId, teamId });
+  const log = await insertLog({
+    teamMoveId: teamId ? teamId : oldUseData.teamId,
+    personMoveId: userId,
+    personDoingOperationId: parseInt(contextReq.user.id),
+    movement: `${contextReq.user.id} ${contextReq.user.email} => ${
+      teamId ? `Assign to Team ${teamId}` : 'Remove from team'
+    } => user ${userId} ${user.email}`,
+    accountMove: undefined,
+  });
   return user;
 };

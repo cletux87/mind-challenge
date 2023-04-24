@@ -26,6 +26,8 @@ export const validateCreateUserSchema = (req, res, next) => {
       role: req.body.role,
       englishLevel: req.body.englishLevel,
       password: req.body.password,
+      skills: req.body.skills,
+      cvLink: req.body.cvLink,
     });
     next();
   } catch (err) {

@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { createTeam, updateTeam } from '../../services/team';
 import { SpinnerButton } from './SpinnerButton';
 
@@ -91,6 +90,7 @@ interface Props {
   isNewTeam?: boolean;
   onInsertOrUpdateSuccess?: () => void;
   accountId?: number;
+  forceRefetch?: () => void;
 }
 
 export const TeamCard = ({
@@ -99,8 +99,8 @@ export const TeamCard = ({
   isNewTeam = false,
   onInsertOrUpdateSuccess,
   accountId,
+  forceRefetch,
 }: Props) => {
-  const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -123,13 +123,15 @@ export const TeamCard = ({
     setWriteMode(false);
     updateTeam({
       teamName: name,
-      accountId: accountId || 1,
+      accountId: accountId || 0,
     })
       .then(() => {
         if (onInsertOrUpdateSuccess) {
           onInsertOrUpdateSuccess();
         }
-        navigate(`/app/team/${teamDto?.id || ''}`);
+        if (forceRefetch) {
+          forceRefetch();
+        }
       })
       .catch((err) => {
         setIsError(true);
@@ -147,13 +149,15 @@ export const TeamCard = ({
     setWriteMode(false);
     createTeam({
       teamName: name,
-      accountId: 1,
+      accountId: accountId || 0,
     })
       .then((response) => {
         if (onInsertOrUpdateSuccess) {
           onInsertOrUpdateSuccess();
         }
-        navigate(`/app/team/${response.data.data.id}`);
+        if (forceRefetch) {
+          forceRefetch();
+        }
       })
       .catch((err) => {
         setIsError(true);

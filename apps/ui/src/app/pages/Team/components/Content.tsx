@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
+  Card,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,12 +10,14 @@ import {
   Input,
   Typography,
 } from '@mui/material';
-import { TeamDTO, UserDTO } from '@mind-challenge4/share-types';
+import { LogDTO, TeamDTO, UserDTO } from '@mind-challenge4/share-types';
 import { TeamForm } from './TeamForm';
 import { client } from '../../../../services';
 import { END_POINT_USERS } from '../../../../constants/url';
 import { ReportDataTable } from '@mind-challenge4/component-module';
 import { SpinnerButton } from '../../../components/SpinnerButton';
+import { useNavigate } from 'react-router-dom';
+import { LogsTable } from '../../../components/LogsTable';
 
 const columns = [
   {
@@ -46,6 +49,58 @@ const columns = [
       return <div>{value && value !== '' ? 'No' : 'Yes'}</div>;
     },
   },
+  {
+    textAlign: 'left',
+    text: 'Action',
+    accessor: 'id',
+    customCell: () => {
+      return <div>Add User</div>;
+    },
+    isLink: true,
+    isClickable: true,
+  },
+];
+
+const currentUserColumns = [
+  {
+    text: 'Email',
+    accessor: 'email',
+    isLink: true,
+    isClickable: true,
+  },
+  {
+    textAlign: 'left',
+    text: 'Name',
+    accessor: 'firstName',
+  },
+  {
+    textAlign: 'left',
+    text: 'Last Name',
+    accessor: 'lastName',
+  },
+  {
+    textAlign: 'left',
+    text: 'Role',
+    accessor: 'role',
+  },
+  {
+    textAlign: 'left',
+    text: 'Active',
+    accessor: 'endDate',
+    customCell: (value?: string) => {
+      return <div>{value && value !== '' ? 'No' : 'Yes'}</div>;
+    },
+  },
+  {
+    textAlign: 'left',
+    text: 'Action',
+    accessor: 'id',
+    customCell: () => {
+      return <div>Remove User</div>;
+    },
+    isLink: true,
+    isClickable: true,
+  },
 ];
 
 interface Props {
@@ -55,12 +110,15 @@ interface Props {
 }
 
 export const Content = ({ team, isLoading, forceRefetch }: Props) => {
+  const navigate = useNavigate();
   const [searchUserInput, setSearchUserInput] = useState('');
   const [isSearchUserLoading, setIsSearchUserLoading] = useState(false);
   const [searchUsers, setSearchUsers] = useState<UserDTO[]>([]);
   const [showAddUser, setShowAddUser] = useState(false);
   const [currentUsersIsLoading, setCurrentUsersIsLoading] = useState(false);
   const [currentUsers, setCurrentUsers] = useState<UserDTO[]>([]);
+  const [logsIsLoading, setLogsIsLoading] = useState(false);
+  const [logsData, setLogsData] = useState<LogDTO[]>([]);
   const [changeUserData, setChangeUserData] = useState({
     modalOpen: false,
     userId: 0,
@@ -69,17 +127,26 @@ export const Content = ({ team, isLoading, forceRefetch }: Props) => {
   const [changeTeamIsLoading, setChangeTeamIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log('LOADING!!!!');
     if (team?.id) {
-      console.log('GOT accountId');
       setCurrentUsersIsLoading(true);
       client
         .get(`${END_POINT_USERS}?teamId=${team?.id}`)
         .then((data) => {
-          console.log('---->DATA', data);
           setCurrentUsers(data.data.data);
         })
         .finally(() => setCurrentUsersIsLoading(false));
+    }
+  }, [team?.id]);
+
+  useEffect(() => {
+    if (team?.id) {
+      setLogsIsLoading(true);
+      client
+        .get(`/api/logs/team/${team?.id}`)
+        .then((data) => {
+          setLogsData(data.data.data.logs);
+        })
+        .finally(() => setLogsIsLoading(false));
     }
   }, [team?.id]);
 
@@ -130,20 +197,30 @@ export const Content = ({ team, isLoading, forceRefetch }: Props) => {
 
   const onCellClickSearch = (cell: any) => {
     const id = cell.row.original.id;
-    setChangeUserData({
-      modalOpen: true,
-      userId: id,
-      action: 'add',
-    });
+    const header = cell.column.Header;
+    if (header === 'Action') {
+      setChangeUserData({
+        modalOpen: true,
+        userId: id,
+        action: 'add',
+      });
+    } else {
+      navigate(`/app/user/${id}`);
+    }
   };
 
   const onCellClickCurrentUsers = (cell: any) => {
     const id = cell.row.original.id;
-    setChangeUserData({
-      modalOpen: true,
-      userId: id,
-      action: 'remove',
-    });
+    const header = cell.column.Header;
+    if (header === 'Action') {
+      setChangeUserData({
+        modalOpen: true,
+        userId: id,
+        action: 'remove',
+      });
+    } else {
+      navigate(`/app/user/${id}`);
+    }
   };
 
   const closeDialog = () => {
@@ -204,14 +281,23 @@ export const Content = ({ team, isLoading, forceRefetch }: Props) => {
               />
             </React.Fragment>
           )}
-          <Typography sx={{ marginBottom: '8px' }}>Current Users</Typography>
-          <Box marginBottom={2}>
-            <ReportDataTable
-              data={currentUsers || []}
-              loading={currentUsersIsLoading}
-              columns={columns}
-              onCellClick={onCellClickCurrentUsers}
-            />
+          <Box display="flex" flexDirection="column">
+            <Card sx={{ padding: '8px' }}>
+              <Typography sx={{ marginBottom: '8px' }}>
+                Current Users
+              </Typography>
+              <Box marginBottom={2}>
+                <ReportDataTable
+                  data={currentUsers || []}
+                  loading={currentUsersIsLoading}
+                  columns={currentUserColumns}
+                  onCellClick={onCellClickCurrentUsers}
+                />
+              </Box>
+            </Card>
+          </Box>
+          <Box display="flex" flexDirection="column" sx={{ marginTop: 2 }}>
+            <LogsTable isLoading={logsIsLoading} logs={logsData || []} />
           </Box>
         </Box>
       )}

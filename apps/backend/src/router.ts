@@ -39,7 +39,12 @@ import {
   validateAddTeamMemberSchema,
   validateTeamCreateSchema,
 } from './middleware/validators/team';
-import { getAllLogs, getLogs, getMyLogs } from './handlers/teamLog';
+import {
+  getAllLogs,
+  getLogs,
+  getMyLogs,
+  getTeamLogs,
+} from './handlers/teamLog';
 
 const router = Router();
 
@@ -106,5 +111,6 @@ router.post(
 router.get('/logs', isAdminUser, getAllLogs);
 router.get('/mylogs', getMyLogs);
 router.get('/logs/user/:id', isAdminUser, getLogs);
+router.get('/logs/team/:id', isAdminUser, getTeamLogs);
 
 export default router;

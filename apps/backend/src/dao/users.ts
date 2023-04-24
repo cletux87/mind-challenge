@@ -62,6 +62,8 @@ export const createUser = async ({
   role,
   englishLevel,
   password,
+  skills,
+  cvLink,
 }: Omit<UserEntity, 'id' | 'startDate'>) => {
   const user = await prisma.user.create({
     data: {
@@ -73,6 +75,8 @@ export const createUser = async ({
       englishLevel,
       password,
       startDate: new Date(),
+      ...(skills ? { skills } : {}),
+      ...(cvLink ? { cvLink } : {}),
     },
   });
   return user;
@@ -87,6 +91,8 @@ export const updateUser = async ({
   role,
   englishLevel,
   password,
+  cvLink,
+  skills,
 }: UserUpdateDTO & { id: number }) => {
   const user = await prisma.user.update({
     where: {
@@ -100,6 +106,8 @@ export const updateUser = async ({
       role: mapRole(role),
       englishLevel: mapEnglishLevel(englishLevel),
       ...(password ? { password } : {}),
+      ...(skills ? { skills } : {}),
+      ...(cvLink ? { cvLink } : {}),
     },
   });
   return user;

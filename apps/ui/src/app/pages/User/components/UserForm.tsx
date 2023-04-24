@@ -6,16 +6,22 @@ import { UserCard } from '../../../components/UserCard';
 interface Props {
   user?: UserDTO;
   isLoading?: boolean;
+  forceRefetch?: () => void;
 }
 
-export const UserForm = ({ user, isLoading }: Props) => {
+export const UserForm = ({ user, isLoading, forceRefetch }: Props) => {
   let isNewUser = true;
   if (user) {
     isNewUser = false;
   }
   return (
     <Box>
-      <UserCard userDto={user} useExtendedCard isNewUser={isNewUser} />
+      <UserCard
+        userDto={user}
+        useExtendedCard
+        isNewUser={isNewUser}
+        forceRefetch={forceRefetch}
+      />
     </Box>
   );
 };

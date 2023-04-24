@@ -13,6 +13,7 @@ export const createAccount = async (req, res) => {
     });
     res.json({ data: account });
   } catch (e) {
+    console.log(e);
     res.status(500);
     res.json({ errors: 'Something went wrong please try again later' });
   }
@@ -25,6 +26,7 @@ export const getAccount = async (req, res) => {
     res.json({ data: account });
     res.status(200);
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }
@@ -35,6 +37,7 @@ export const getAccounts = async (req, res) => {
     const accounts = await getAccountsService();
     res.json({ data: accounts });
   } catch (e) {
+    console.log(e);
     res.status(500);
     res.json({ errors: 'Something went wrong please try again later' });
   }
@@ -55,6 +58,7 @@ export const updateAccount = async (req, res) => {
     res.json({ data: account });
     res.status(200);
   } catch (e) {
+    console.log(e);
     res.status(400);
     res.json({ errors: 'Id has not a correct format' });
   }
